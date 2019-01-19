@@ -2,3 +2,4 @@ dockerc
 .vagrant
 cgroups/subsystems/testmemlimit
 dockerc-cgroup
+busybox.tar

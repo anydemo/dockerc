@@ -25,6 +25,8 @@ func NewParentProcess(tty bool) (*exec.Cmd, *os.File) {
 		cmd.Stderr = os.Stderr
 	}
 	cmd.ExtraFiles = []*os.File{readPipe}
+	// the position of busybox in host
+	cmd.Dir = "/busybox"
 	return cmd, writePipe
 }
 
