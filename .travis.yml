@@ -1,0 +1,17 @@
+language: go
+go_import_path: github.com/exfly/dockerc
+
+os: 
+  - linux
+
+go:
+  - "1.x"
+  - "1.7"
+  - "1.8"
+  - "1.10.x"
+  - "1.11.x"
+  - "1.12.x"
+  - master
+
+script:
+  - go build -v
