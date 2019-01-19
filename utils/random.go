@@ -13,5 +13,5 @@ func randomString(n int) string {
 }
 
 func RS() string {
-	return randomString(64)
+	return randomString(16)
 }

@@ -25,6 +25,10 @@ var runCommand = cli.Command{
 			Name:  "d",
 			Usage: "detach container",
 		},
+		cli.StringFlag{
+			Name:  "name",
+			Usage: "container name",
+		},
 	},
 	Action: func(context *cli.Context) error {
 		if len(context.Args()) < 1 {
@@ -37,11 +41,12 @@ var runCommand = cli.Command{
 		tty := context.Bool("ti")
 		volume := context.String("v")
 		detach := context.Bool("d")
+		containerName := context.String("name")
 
 		if tty && detach {
 			return fmt.Errorf("ti and d paramter can not both provided")
 		}
-		Run(tty, cmdArray, volume)
+		Run(tty, cmdArray, volume, containerName)
 		return nil
 	},
 }
@@ -65,6 +70,26 @@ var commitCommand = cli.Command{
 		}
 		imageName := context.Args().Get(0)
 		commitContainer(imageName)
+		return nil
+	},
+}
+var listCommand = cli.Command{
+	Name:  "ps",
+	Usage: "list all the containers",
+	Action: func(context *cli.Context) error {
+		ListContainers()
+		return nil
+	},
+}
+var logCommand = cli.Command{
+	Name:  "logs",
+	Usage: "print logs of a container",
+	Action: func(context *cli.Context) error {
+		if len(context.Args()) < 1 {
+			return fmt.Errorf("Please input your container name")
+		}
+		containerName := context.Args().Get(0)
+		logContainer(containerName)
 		return nil
 	},
 }
