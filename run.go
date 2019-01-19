@@ -18,11 +18,9 @@ func Run(tty bool, comArray []string, volume string) {
 		log.Error(err)
 	}
 	sendInitCommand(comArray, writePipe)
-	parent.Wait()
-	mntURL := "/dockerc/mnt"
-	rootURL := "/dockerc"
-	container.DeleteWorkSpace(rootURL, mntURL, volume)
-	os.Exit(0)
+	if tty {
+		parent.Wait()
+	}
 }
 
 func sendInitCommand(comArray []string, writePipe *os.File) {
