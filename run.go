@@ -18,6 +18,9 @@ func Run(tty bool, comArray []string) {
 		log.Error(err)
 	}
 	sendInitCommand(comArray, writePipe)
+	mntURL := "/dockerc/mnt/"
+	rootURL := "/dockerc/"
+	container.DeleteWorkSpace(rootURL, mntURL)
 	parent.Wait()
 	os.Exit(0)
 }
