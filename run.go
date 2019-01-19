@@ -8,8 +8,8 @@ import (
 	"github.com/exfly/dockerc/container"
 )
 
-func Run(tty bool, comArray []string) {
-	parent, writePipe := container.NewParentProcess(tty)
+func Run(tty bool, comArray []string, volume string) {
+	parent, writePipe := container.NewParentProcess(tty, volume)
 	if parent == nil {
 		log.Errorf("New parent process error")
 		return
@@ -18,10 +18,10 @@ func Run(tty bool, comArray []string) {
 		log.Error(err)
 	}
 	sendInitCommand(comArray, writePipe)
-	mntURL := "/dockerc/mnt/"
-	rootURL := "/dockerc/"
-	container.DeleteWorkSpace(rootURL, mntURL)
 	parent.Wait()
+	mntURL := "/dockerc/mnt"
+	rootURL := "/dockerc"
+	container.DeleteWorkSpace(rootURL, mntURL, volume)
 	os.Exit(0)
 }
 
