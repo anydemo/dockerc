@@ -11,10 +11,11 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/exfly/dockerc/cgroups/subsystems"
 	"github.com/exfly/dockerc/container"
+	"github.com/exfly/dockerc/network"
 	"github.com/exfly/dockerc/utils"
 )
 
-func Run(tty bool, comArray []string, res *subsystems.ResourceConfig, containerName, volume, imageName string, envSlice []string) {
+func Run(tty bool, comArray []string, res *subsystems.ResourceConfig, containerName, volume, imageName string, envSlice []string, nw string, portmapping []string) {
 	containerID := utils.RS()
 	if containerName == "" {
 		containerName = containerID
@@ -32,6 +33,23 @@ func Run(tty bool, comArray []string, res *subsystems.ResourceConfig, containerN
 	if err != nil {
 		log.Errorf("Record container info error %v", err)
 		return
+	}
+
+	// FIXME: add cgroup
+
+	if nw != "" {
+		// config container network
+		network.Init()
+		containerInfo := &container.ContainerInfo{
+			ID:          containerID,
+			Pid:         strconv.Itoa(parent.Process.Pid),
+			Name:        containerName,
+			PortMapping: portmapping,
+		}
+		if err := network.Connect(nw, containerInfo); err != nil {
+			log.Errorf("Error Connect Network %v", err)
+			return
+		}
 	}
 
 	sendInitCommand(comArray, writePipe)
