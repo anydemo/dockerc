@@ -14,12 +14,12 @@ import (
 	"github.com/exfly/dockerc/utils"
 )
 
-func Run(tty bool, comArray []string, res *subsystems.ResourceConfig, containerName, volume, imageName string) {
+func Run(tty bool, comArray []string, res *subsystems.ResourceConfig, containerName, volume, imageName string, envSlice []string) {
 	containerID := utils.RS()
 	if containerName == "" {
 		containerName = containerID
 	}
-	parent, writePipe := container.NewParentProcess(tty, containerName, volume, imageName)
+	parent, writePipe := container.NewParentProcess(tty, containerName, volume, imageName, envSlice)
 	if parent == nil {
 		log.Errorf("New parent process error")
 		return

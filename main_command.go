@@ -29,6 +29,10 @@ var runCommand = cli.Command{
 			Name:  "name",
 			Usage: "container name",
 		},
+		cli.StringSliceFlag{
+			Name:  "e",
+			Usage: "set environment",
+		},
 	},
 	Action: func(context *cli.Context) error {
 		if len(context.Args()) < 1 {
@@ -44,11 +48,11 @@ var runCommand = cli.Command{
 		volume := context.String("v")
 		detach := context.Bool("d")
 		containerName := context.String("name")
-
+		envSlice := context.StringSlice("e")
 		if tty && detach {
 			return fmt.Errorf("ti and d paramter can not both provided")
 		}
-		Run(tty, cmdArray, nil, containerName, volume, imageName)
+		Run(tty, cmdArray, nil, containerName, volume, imageName, envSlice)
 		return nil
 	},
 }
