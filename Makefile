@@ -7,7 +7,12 @@ build:
 mount:
 	sudo mount -t proc proc /proc
 
+install:
+	mkdir /dockerc
+	cp bysybox.tar /dockerc
+
 busybox:
+	# get the busybox.tar
 	# docker run -d busybox top -b
 	# docker export -o busybox.tar cid
 	# sudo mkdir /root/busybox
