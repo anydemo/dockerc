@@ -6,4 +6,4 @@
 * phusion/ubuntu-14.04-amd64
 
 # others 
-thanks for [mydocker](github.com/xianlubird/mydocker)
+forked for [mydocker](github.com/xianlubird/mydocker), refactor and add some new feature
